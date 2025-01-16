@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "T3.C": "cpp",
+        "iostream": "cpp",
+        "tuple": "cpp",
+        "ostream": "cpp",
+        "*.tcc": "cpp"
+    }
+}
