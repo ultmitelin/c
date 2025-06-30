@@ -1,37 +1,59 @@
-// #include <iostream>
-// using namespace std;
-
-// int main() { ifstream f("hahaha.txt"); }
 #include <fstream>
 #include <iostream>
 using namespace std;
-// 读取文件
-void readFile(const std::string& fileName) {
-  std::ifstream file(fileName);
-  if (file.is_open()) {
-    std::string line;
-    while (std::getline(file, line)) {
-      std::cout << line << "\n";
-    }
-    file.close();
-  } else {
-    std::cerr << "Failed to open the file." << std::endl;
+int main() {
+  fstream f;
+  string s = R"(file\output.txt)";
+  f.open(s, ios::out | ios::app);
+  cout << f.is_open() << endl;
+
+  for (int i = 1; i <= 10; i++) {
+    s = "aaaHello," + to_string(i);
+    f << s << "!" << endl;
   }
+  f.close();
+  cout << "ok" << endl;
+  return 0;
 }
 
-// 写入文件
-void writeFile(const std::string& fileName, const std::string& content) {
-  std::ofstream file(fileName);
-  if (file.is_open()) {
-    file << content;
-    file.close();
-    std::cout << "Content written to the file successfully.\n";
-  } else {
-    std::cerr << "Failed to open the file for writing." << std::endl;
-  }
-}
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+using namespace std;
+#include <iomanip>
+struct stu {
+  string id;
+  string name;
+  int Chinese;
+  int Math;
+  int English;
+  double average;
+  /* data */
+  double qiu() { average = Chinese * 0.300 + Math * 0.400 + English * 0.300; }
+};
+
 int main() {
-  readFile("hahaha.txt");
-  // ifstream f("hahaha.txt");
-  ifstream f("hahaha.txt");
+  ifstream in("input.txt");
+  cout << in.is_open() << endl;
+  string line;
+  vector<stu> list;
+  while (getline(in, line)) {
+    stu temp;
+    stringstream line1(line);
+    line1 >> temp.id >> temp.name >> temp.Chinese >> temp.Math >> temp.English;
+    temp.qiu();
+    // cout << temp.id << endl;
+    list.push_back(temp);
+  }
+  in.close();
+  ofstream out("output.txt", ios::app);
+  cout << out.is_open() << endl;
+  for (int i = 0; i < list.size(); i++) {
+    out << list[i].id << ' ' << list[i].name << ' ' << fixed << setprecision(3)
+        << list[i].average << endl;
+  }
+  out.close();
+  cout << "ok" << endl;
 }
