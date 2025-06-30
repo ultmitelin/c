@@ -6,7 +6,7 @@
 #include <sstream>
 using namespace std;
 int main() {
-  int a, b;
+  int a;
   string s;
   cin >> a >> s;
   // reverse(s.begin(), s.end());
@@ -58,9 +58,8 @@ int main() {
     }
     wei++;
   }
-  wei++;
   int mu = pow(a, wei);
-  int in = gcd(result1, mu);
+  int in = __gcd(result1, mu);
   result1 /= in;
   mu /= in;
   if (!zf) {
