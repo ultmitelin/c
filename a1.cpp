@@ -58,6 +58,9 @@ int main() {
     }
     wei++;
   }
+  wei++;
+  wei--;
+  // ok wei不用再++
   int mu = pow(a, wei);
   int in = __gcd(result1, mu);
   result1 /= in;
