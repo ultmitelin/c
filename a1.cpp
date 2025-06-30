@@ -1,60 +1,70 @@
-#include <iomanip>
+#include <math.h>
+
+#include <algorithm>
 #include <iostream>
+#include <numeric>
 #include <sstream>
-#include <string>
 using namespace std;
-// 用于以十六进制格式输出整数的函数
-void printHex(int value) {
-  union {
-    int d;
-    unsigned char bytes[4];
-  } data;
-  data.d = value;
-
-  for (int i = 0; i < 4; ++i) {
-    cout << hex << setfill('0') << setw(2) << static_cast<int>(data.bytes[i])
-         << " ";
-  }
-  // cout << hex << value << " ";
-}
-
-// 用于以十六进制格式输出double的函数
-void printHex(double value) {
-  union {
-    double d;
-    unsigned char bytes[8];  // double类型通常为8字节
-  } data;
-  data.d = value;
-
-  // 根据系统字节序输出字节
-  for (int i = 0; i < 8; ++i) {
-    cout << hex << setfill('0') << setw(2) << static_cast<int>(data.bytes[i])
-         << " ";
-  }
-}
-
 int main() {
-  string line;
-  // char *line;
-  while (getline(cin, line)) {
-    // 检查是否包含小数点，以确定是int还是double
-    if (line.find('.') != string::npos) {
-      // 包含小数点，视为double
-      stringstream iss(line);
-      double value;
-      iss >> value;
-      // // stoi(line, NULL, 10);
-      cout << value << endl;
-      printHex(value);
-    } else {
-      // 不包含小数点，视为int
-      stringstream iss(line);
-      int value;
-      iss >> value;
-      cout << value << endl;
-      printHex(value);
+  int a, b;
+  string s;
+  cin >> a >> s;
+  // reverse(s.begin(), s.end());
+  // cout << s << endl;
+  stringstream ss(s);
+  char x;
+  int result = 0;
+  bool zf = 1;
+  bool xiao = 0;
+  while (ss >> x) {
+    if (x == '-') {
+      zf = 0;
+      continue;
     }
-    cout << endl;  // 每个数值后换行
+    if (x == '.') {
+      xiao = 1;
+      break;
+    }
+    // cout << x << ' ';
+    if (x >= '0' && x <= '9') {
+      result = result * a + x - '0';
+    } else if (x >= 'a' && x <= 'z') {
+      result = result * a + x - 'a' + 10;
+    } else if (x >= 'A' && x <= 'Z') {
+      result = result * a + x - 'A' + 10;
+    }
   }
-  return 0;
+  if (result != 0) {
+    if (!zf) {
+      cout << '-';
+      zf = 1;
+    }
+    cout << result << ' ';
+  }
+  if (!xiao) {
+    return 0;
+  }
+  int wei = 0;
+  int result1 = 0;
+
+  while (ss >> x) {
+    // cout << x << ' ';
+    if (x >= '0' && x <= '9') {
+      result1 = result1 * a + x - '0';
+    } else if (x >= 'a' && x <= 'z') {
+      result1 = result1 * a + x - 'a' + 10;
+    } else if (x >= 'A' && x <= 'Z') {
+      result1 = result1 * a + x - 'A' + 10;
+    }
+    wei++;
+  }
+  wei++;
+  int mu = pow(a, wei);
+  int in = gcd(result1, mu);
+  result1 /= in;
+  mu /= in;
+  if (!zf) {
+    cout << '-';
+  }
+  cout << result1 << ' ' << mu;
 }
